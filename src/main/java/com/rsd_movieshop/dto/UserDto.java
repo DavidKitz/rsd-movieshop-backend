@@ -7,7 +7,11 @@ public class UserDto {
 	public String email;
 	public String userName;
 	public String password;
-	
+
+	public UserDto() {
+
+	}
+
 	public UserDto(String familyName, String firstName, String email, String userName, String password) {
 		super();
 		this.familyName = familyName;

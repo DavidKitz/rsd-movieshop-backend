@@ -34,12 +34,14 @@ public class OrderController {
 	public ResponseEntity<OrderResponse> createNewOrder(@PathVariable long cartID) {
 		return orderService.createOrderFromCart(cartID);
 	}
-
+/*
 	@PutMapping(path = "admin/orders/{orderID}")
 	public ResponseEntity<OrderResponse> updateOrder(@PathVariable long orderID,
 			@RequestParam OrderStatus orderStatus) {
 		return orderService.updateOrder(orderID, orderStatus);
 	}
+
+ */
 
 	@DeleteMapping(path = "admin/orders/{orderID}")
 	public ResponseEntity<String> deleteOrder(@PathVariable long orderID) {
