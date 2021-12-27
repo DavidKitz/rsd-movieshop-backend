@@ -6,10 +6,12 @@ import com.rsd_movieshop.service.UserService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 
 @RestController
+@EnableWebMvc
 @RequestMapping(path = "/api/")
 public class UserController {
 
@@ -34,6 +36,7 @@ public class UserController {
 		return userService.findUserByUsername(username);
 	}
 
+	@CrossOrigin(origins = "http://127.0.0.1:5500/")
 	@PostMapping(path = "register")
 	public ResponseEntity<UserResponse> addUser(@RequestBody UserDto userDto) {
 		return userService.saveUser(userDto);
