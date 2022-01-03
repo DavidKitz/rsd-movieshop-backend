@@ -1,5 +1,6 @@
 package com.rsd_movieshop.security;
 
+import org.hibernate.annotations.Immutable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -61,12 +69,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        final CorsConfiguration configurationForCors = new CorsConfiguration();
+        configurationForCors.applyPermitDefaultValues();
+        configurationForCors.setAllowedOrigins(List.of("http://127.0.0.1:5500/"));
+        configurationForCors.setAllowedHeaders(List.of("*"));
+        configurationForCors.setExposedHeaders(List.of("*"));
+        configurationForCors.setAllowCredentials(true);
 
-    	http.cors();
+        http.formLogin()
+                .loginProcessingUrl("/login")
+                .permitAll();
+
+        http.cors().configurationSource(request -> configurationForCors);
     	
     	http.authorizeRequests()
     	.antMatchers("/api/**").permitAll();
@@ -93,9 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable();
 
-        http.formLogin()
-        .loginProcessingUrl("/login")
-        .permitAll();
+
         
         http.logout()
         .logoutUrl("/logout")
@@ -125,7 +140,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
-    
+
 
     @Bean
     public RoleHierarchy roleHierarchy() {
@@ -133,4 +148,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
         return roleHierarchy;
     }
+
 }

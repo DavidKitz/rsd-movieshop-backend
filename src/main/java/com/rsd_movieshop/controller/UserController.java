@@ -36,7 +36,6 @@ public class UserController {
 		return userService.findUserByUsername(username);
 	}
 
-	@CrossOrigin(origins = "http://127.0.0.1:5500/")
 	@PostMapping(path = "register")
 	public ResponseEntity<UserResponse> addUser(@RequestBody UserDto userDto) {
 		return userService.saveUser(userDto);

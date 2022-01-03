@@ -15,6 +15,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             HttpServletRequest request,
             HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
+
         clearAuthenticationAttributes(request);
     }
 }
